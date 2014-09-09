@@ -40,6 +40,7 @@ FBL.ns(function () {
 
       var window;
       var knockout;
+      // REVIEW: Calling the function `contextFor` accessed via the `window.wrappedJSObject` property appears to be safe, but more investigation would be optimal.
       var knockoutContext = (window = context.window) && (knockout = window.wrappedJSObject.ko) && knockout.contextFor(object);
       if (!knockoutContext) {
         return;
