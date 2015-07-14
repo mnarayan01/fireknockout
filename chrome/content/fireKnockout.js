@@ -1,4 +1,28 @@
 FBL.ns(function () {
+  /**
+   *
+   * @todo REVIEW: Calling the function `contextFor` accessed via the `window.wrappedJSObject` property appears to be safe, but more investigation would be optimal.
+   *
+   * @private
+   *
+   * @param context
+   * @param object
+   * @returns {Knockout.Context}
+   */
+  function getKnockoutContext(context, object) {
+    var window;
+    var knockout;
+    var knockoutContextForFunction;
+
+    knockoutContextForFunction = (window = context.window) && (knockout = window.wrappedJSObject.ko) && knockout.contextFor;
+
+    if (knockoutContextForFunction && FBL.isFunction(knockoutContextForFunction)) {
+      return knockoutContextForFunction(object);
+    } else {
+      return null;
+    }
+  }
+
   // Adapted from UseInCommandLine from the base Firebug source.
   var InspectKnockoutContext = FBL.extend(Firebug.Module, {
     dispatchName: "InspectKnockoutContext",
@@ -38,10 +62,7 @@ FBL.ns(function () {
         return;
       }
 
-      var window;
-      var knockout;
-      // REVIEW: Calling the function `contextFor` accessed via the `window.wrappedJSObject` property appears to be safe, but more investigation would be optimal.
-      var knockoutContext = (window = context.window) && (knockout = window.wrappedJSObject.ko) && knockout.contextFor(object);
+      var knockoutContext = getKnockoutContext(context, object);
       if (!knockoutContext) {
         return;
       }
