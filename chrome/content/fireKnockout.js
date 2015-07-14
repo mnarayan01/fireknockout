@@ -74,26 +74,6 @@ FBL.ns(function () {
         tooltiptext: "Open the Knockout context for the current element in the DOM panel",
         command: this.inspectKnockoutContext.bind(this, knockoutContext)
       });
-
-
-      var currentKnockoutDataObject = knockoutContext.$data;
-      if (currentKnockoutDataObject) {
-        var nameTooltipString = (function () {
-          var currentKnockoutDataObjectName = currentKnockoutDataObject.constructor && currentKnockoutDataObject.constructor.name;
-
-          if (currentKnockoutDataObjectName) {
-            return " (" + currentKnockoutDataObjectName + ") ";
-          } else {
-            return " ";
-          }
-        })();
-
-        FBL.createMenuItem(popup, {
-          label: "Inspect Knockout binding",
-          tooltiptext: "Open the $data object" + nameTooltipString + "in the Knockout context for the current element in the DOM panel",
-          command: this.inspectCurrentKnockoutDataObject.bind(this, currentKnockoutDataObject)
-        });
-      }
     },
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -101,10 +81,6 @@ FBL.ns(function () {
 
     inspectKnockoutContext: function (knockoutContext) {
       Firebug.chrome.select(knockoutContext, "dom");
-    },
-
-    inspectCurrentKnockoutDataObject: function (knockoutDataObject) {
-      Firebug.chrome.select(knockoutDataObject, "dom");
     }
   });
 
