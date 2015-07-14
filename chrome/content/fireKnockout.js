@@ -5,17 +5,42 @@ FBL.ns(function () {
    *
    * @private
    *
-   * @param context
+   * @param firebugContext
    * @param object
-   * @returns {Knockout.Context}
+   * @returns {?Knockout.Context}
    */
-  function getKnockoutContext(context, object) {
+  function getKnockoutContext(firebugContext, object) {
+    var rep;
+    var realObject;
     var window;
     var knockout;
     var knockoutContextForFunction;
 
-    knockoutContextForFunction = (window = context.window) && (knockout = window.wrappedJSObject.ko) && knockout.contextFor;
+    // Much of this was adapted from UseInCommandLine from the base Firebug source.
 
+    if (!object || typeof object === "boolean") {
+      return null;
+    }
+
+    rep = Firebug.getRep(object, firebugContext);
+    if (!rep || !rep.inspectable) {
+      return null;
+    }
+
+    realObject = rep.getRealObject(object, firebugContext);
+    if (!FBL.isElement(realObject)) {
+      return null;
+    }
+
+    // Checking that the object is an instance of `window.Element` is fairly defensive; not sure whether it has any
+    // utility. This is simply an attempt to ensure that we don't pass anything exploitable into the `contextFor`
+    // function.
+    window = firebugContext.window;
+    if (!window || !window.Element || !(object instanceof window.Element)) {
+      return null;
+    }
+
+    knockoutContextForFunction = (knockout = window.wrappedJSObject.ko) && knockout.contextFor;
     if (knockoutContextForFunction && FBL.isFunction(knockoutContextForFunction)) {
       return knockoutContextForFunction(object);
     } else {
@@ -46,22 +71,6 @@ FBL.ns(function () {
     // UI Listener
 
     onContextMenu: function (items, object, target, context, panel, popup) {
-      if (typeof object === "boolean" || object === undefined || object === null) {
-        return;
-      }
-
-      var rep = Firebug.getRep(object, context);
-      if (!rep || !rep.inspectable) {
-        return;
-      }
-
-      // This was adapted from UseInCommandLine from the base Firebug source. The proceeding two checks may not be
-      // needed.
-      var realObject = rep.getRealObject(object, context);
-      if (!FBL.isElement(realObject)) {
-        return;
-      }
-
       var knockoutContext = getKnockoutContext(context, object);
       if (!knockoutContext) {
         return;
