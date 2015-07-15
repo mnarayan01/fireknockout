@@ -1,3 +1,5 @@
+/* global FBL, Firebug, Module */
+
 FBL.ns(function () {
   /**
    *
