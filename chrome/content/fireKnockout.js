@@ -32,17 +32,17 @@ FBL.ns(function () {
       return null;
     }
 
-    // Checking that the object is an instance of `window.Element` is fairly defensive; not sure whether it has any
+    // Checking that `realObject` is an instance of `window.Element` is fairly defensive; not sure whether it has any
     // utility. This is simply an attempt to ensure that we don't pass anything exploitable into the `contextFor`
     // function.
     window = firebugContext.window;
-    if (!window || !window.Element || !(object instanceof window.Element)) {
+    if (!window || !window.Element || !(realObject instanceof window.Element)) {
       return null;
     }
 
     knockoutContextForFunction = (knockout = window.wrappedJSObject.ko) && knockout.contextFor;
     if (knockoutContextForFunction && FBL.isFunction(knockoutContextForFunction)) {
-      return knockoutContextForFunction(object);
+      return knockoutContextForFunction(realObject);
     } else {
       return null;
     }
