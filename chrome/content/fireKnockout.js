@@ -1,7 +1,13 @@
 FBL.ns(function () {
   /**
    *
-   * @todo REVIEW: Calling the function `contextFor` accessed via the `window.wrappedJSObject` property appears to be safe, but more investigation would be optimal.
+   * ### Security
+   *
+   * It is _believed_ that the following usage of `ko.contextFor` via `window.wrappedJSObject` is secure, but I'm not
+   * going to stake anything too valuable on it. Potentially useful additional references:
+   *
+   * 1.  https://developer.mozilla.org/en-US/docs/en/XPCNativeWrapper
+   * 2.  https://getfirebug.com/wiki/index.php/Using_win.wrappedJSObject
    *
    * @private
    *
@@ -75,6 +81,8 @@ FBL.ns(function () {
       if (!knockoutContext) {
         return;
       }
+
+      // REVIEW: Should something using `Firebug.getRep` be done on `knockoutContext`?
 
       FBL.createMenuSeparator(popup);
 
