@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        var viewModel = {
+          name: "Level01",
+          observableValue: ko.observable(
+            {
+              name: "Level02",
+              observableArray: ko.observableArray(
+                [
+                  {
+                    name: "Level03.1",
+                    observableValue: ko.observable(
+                      {
+                        name: "Level04",
+                        observableValue: ko.observable(1)
+                      }
+                    )
+                  },
+                  {
+                    name: "Level03.2",
+                    observableValue: ko.observable(
+                      {
+                        name: "Level04",
+                        observableValue: ko.observable(2)
+                      }
+                    )
+                  },
+                  {
+                    name: "Level03.3",
+                    observableValue: ko.observable(
+                      {
+                        name: "Level04",
+                        observableValue: ko.observable(3)
+                      }
+                    )
+                  }
+                ]
+              )
+            }
+          )
+        };
+
+        ko.applyBindings(viewModel);
+      });
+    </script>
+    <style>
+      .knockout-level {
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <span>Level 01</span>
+    <div class="knockout-level" data-bind="with: $data.observableValue">
+      <span>Level 02</span>
+      <div class="knockout-level">
+        <!-- ko foreach: $data.observableArray -->
+        <div class="knockout-level" >
+          <span>Level 03[]</span>
+          <div class="knockout-level" data-bind="with: $data.observableValue">
+            <span>Level 04</span>
+            <div class="knockout-level">
+              <span>Level 05</span>
+              -
+              <span data-bind="text: $data.observableValue"></span>
+            </div>
+          </div>
+        </div>
+        <!-- /ko -->
+      </div>
+    </div>
+  </body>
+</html>
