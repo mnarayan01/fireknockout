@@ -76,20 +76,34 @@ FBL.ns(function () {
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     // UI Listener
 
-    onContextMenu: function (items, object, target, context, panel, popup) {
-      var knockoutContext = getKnockoutContext(context, object);
+    onContextMenu: function (items, object, target, firebugContext, panel, popup) {
+      var knockoutContext;
+      var knockoutContextRep;
+      var knockoutContextRealObject;
+
+      knockoutContext = getKnockoutContext(firebugContext, object);
       if (!knockoutContext) {
         return;
       }
 
-      // REVIEW: Should something using `Firebug.getRep` be done on `knockoutContext`?
+      // REVIEW: Not sure if going through `getRep` and `getRealObject` serve any purpose what so ever.
+
+      knockoutContextRep = Firebug.getRep(knockoutContext, firebugContext);
+      if (!knockoutContextRep || !knockoutContextRep.inspectable) {
+        return;
+      }
+
+      knockoutContextRealObject = knockoutContextRep.getRealObject(knockoutContext, firebugContext);
+      if (!knockoutContextRealObject) {
+        return;
+      }
 
       FBL.createMenuSeparator(popup);
 
       FBL.createMenuItem(popup, {
         label: "Inspect Knockout context",
         tooltiptext: "Open the Knockout context for the current element in the DOM panel",
-        command: this.inspectKnockoutContext.bind(this, knockoutContext)
+        command: this.inspectKnockoutContext.bind(this, knockoutContextRealObject)
       });
     },
 
