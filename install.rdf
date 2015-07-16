@@ -3,6 +3,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>FireKnockout@mnarayan01.github.com</em:id>
     <em:version>0.1</em:version>
+    <em:type>2</em:type>
     <em:name>FireKnockout</em:name>
     <em:description>Small extension to Firebug which adds an option to inspect the current Knockout context to the Firebug context menu on DOM elements.</em:description>
     <em:creator>Michael Narayan</em:creator>
