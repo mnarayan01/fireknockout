@@ -1,8 +1,11 @@
 define(
     [
-      "firebug/lib/lib"
+      "firebug/chrome/menu",
+      "firebug/chrome/module",
+      "firebug/lib/dom",
+      "firebug/lib/object"
     ],
-    function (FBL) {
+    function (Menu, Module, Dom, Obj) {
       "use strict";
 
       /**
@@ -40,7 +43,7 @@ define(
         }
 
         realObject = rep.getRealObject(object, firebugContext);
-        if (!FBL.isElement(realObject)) {
+        if (!Dom.isElement(realObject)) {
           return null;
         }
 
@@ -53,7 +56,7 @@ define(
         }
 
         knockoutContextForFunction = (knockout = window.wrappedJSObject.ko) && knockout.contextFor;
-        if (knockoutContextForFunction && FBL.isFunction(knockoutContextForFunction)) {
+        if (knockoutContextForFunction && Obj.isFunction(knockoutContextForFunction)) {
           return knockoutContextForFunction(realObject);
         } else {
           return null;
@@ -61,20 +64,20 @@ define(
       }
 
       // Adapted from UseInCommandLine from the base Firebug source.
-      var InspectKnockoutContext = FBL.extend(Firebug.Module, {
+      var InspectKnockoutContext = Obj.extend(Module, {
         dispatchName: "InspectKnockoutContext",
 
         // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
         // Extends Module
 
         initialize: function () {
-          Firebug.Module.initialize.apply(this, arguments);
+          Module.initialize.apply(this, arguments);
 
           Firebug.registerUIListener(this);
         },
 
         shutdown: function () {
-          Firebug.Module.shutdown.apply(this, arguments);
+          Module.shutdown.apply(this, arguments);
 
           Firebug.unregisterUIListener(this);
         },
@@ -104,9 +107,9 @@ define(
             return;
           }
 
-          FBL.createMenuSeparator(popup);
+          Menu.createMenuSeparator(popup);
 
-          FBL.createMenuItem(popup, {
+          Menu.createMenuItem(popup, {
             label: "Inspect Knockout context",
             tooltiptext: "Open the Knockout context for the current element in the DOM panel",
             command: this.inspectKnockoutContext.bind(this, knockoutContextRealObject)
