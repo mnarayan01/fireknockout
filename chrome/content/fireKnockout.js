@@ -1,4 +1,4 @@
-/* global FBL, Firebug, Module */
+/* global FBL, Firebug */
 
 FBL.ns(function () {
   /**
@@ -70,7 +70,7 @@ FBL.ns(function () {
     },
 
     shutdown: function () {
-      Module.shutdown.apply(this, arguments);
+      Firebug.Module.shutdown.apply(this, arguments);
 
       Firebug.unregisterUIListener(this);
     },
