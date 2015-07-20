@@ -29,8 +29,10 @@ SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 INPUT_FILES=(
   chrome.manifest
   install.rdf
-  chrome/content/fireKnockout.js
+  chrome/content/fireKnockoutOverlay.js
   chrome/content/fireKnockoutOverlay.xul
+  chrome/content/inspectKnockoutContext.js
+  chrome/content/main.js
 )
 
 OUTPUT_DIRECTORY="${SCRIPT_DIR}/build"
