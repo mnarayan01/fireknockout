@@ -1,16 +1,16 @@
 define(
     [
-      "firebug/lib/trace",
-      // Anonymous requires.
       "fireKnockout/inspectKnockoutContext"
     ],
-    function(FBTrace) {
+    function(InspectKnockoutContext) {
       "use strict";
 
       return {
         initialize: function () {
+          Firebug.registerModule(InspectKnockoutContext);
         },
         shutdown: function () {
+          Firebug.unregisterModule(InspectKnockoutContext);
         }
       };
     }

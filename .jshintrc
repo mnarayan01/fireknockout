@@ -15,7 +15,8 @@
 
   // Predefinitions.
   "predef": [
-    "define",
-    "Firebug"
+    "Components",
+    "Firebug",
+    "define"
   ]
 }

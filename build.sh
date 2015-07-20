@@ -27,10 +27,9 @@ err_handler() {
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 INPUT_FILES=(
+  bootstrap.js
   chrome.manifest
   install.rdf
-  chrome/content/fireKnockoutOverlay.js
-  chrome/content/fireKnockoutOverlay.xul
   chrome/content/inspectKnockoutContext.js
   chrome/content/main.js
 )

@@ -124,8 +124,6 @@ define(
         }
       });
 
-      Firebug.registerModule(InspectKnockoutContext);
-
       return InspectKnockoutContext;
     }
 );
