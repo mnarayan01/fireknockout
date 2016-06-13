@@ -1,3 +1,1 @@
 content fireKnockout chrome/content/
-
-overlay chrome://firebug/content/firebugOverlay.xul         chrome://fireKnockout/content/fireKnockoutOverlay.xul
